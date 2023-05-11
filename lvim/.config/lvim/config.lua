@@ -194,9 +194,44 @@ lvim.plugins = {
     end,
   },
   { "avneesh0612/react-nextjs-snippets"
-  }
+  },
+  {
+    "windwp/nvim-spectre",
+    event = "BufRead",
+    config = function()
+      require("spectre").setup()
+    end,
+  },
+  {
+    "andymass/vim-matchup",
+    event = "CursorMoved",
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
+  {
+    "simrat39/symbols-outline.nvim",
+    config = function()
+      require('symbols-outline').setup()
+    end
+  },
+  {
+  "folke/trouble.nvim",
+    cmd = "TroubleToggle",
+},
 }
 
+-- enable treesitter integration
+lvim.builtin.treesitter.matchup.enable = true
+lvim.builtin.which_key.mappings["t"] = {
+  name = "Diagnostics",
+  t = { "<cmd>TroubleToggle<cr>", "trouble" },
+  w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
+  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
+  q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+  l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+  r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+}
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
@@ -214,3 +249,18 @@ lvim.plugins = {
 --
 require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets/vscode-es7-javascript-react-snippets" } }
 require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets/react-nextjs-snippets" } }
+
+-- PATCH: in order to address the message:
+-- vim.treesitter.query.get_query() is deprecated, use vim.treesitter.query.get() instead. :help deprecated
+--   This feature will be removed in Nvim version 0.10
+local orig_notify = vim.notify
+local filter_notify = function(text, level, opts)
+  -- more specific to this case
+  if type(text) == "string" and (string.find(text, "get_query", 1, true) or string.find(text, "get_node_text", 1, true)) then
+  -- for all deprecated and stack trace warnings
+  -- if type(text) == "string" and (string.find(text, ":help deprecated", 1, true) or string.find(text, "stack trace", 1, true)) then
+    return
+  end
+  orig_notify(text, level, opts)
+end
+vim.notify = filter_notify
