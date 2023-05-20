@@ -193,21 +193,9 @@ lvim.plugins = {
       require("spectre").setup()
     end,
   },
+  { "qwikverse/vscode-qwik-snippets"
+  },
   { "avneesh0612/react-nextjs-snippets"
-  },
-  {
-    "windwp/nvim-spectre",
-    event = "BufRead",
-    config = function()
-      require("spectre").setup()
-    end,
-  },
-  {
-    "andymass/vim-matchup",
-    event = "CursorMoved",
-    config = function()
-      vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    end,
   },
   {
     "simrat39/symbols-outline.nvim",
@@ -219,10 +207,12 @@ lvim.plugins = {
   "folke/trouble.nvim",
     cmd = "TroubleToggle",
 },
+  {'dsznajder/vscode-es7-javascript-react-snippets',
+run = 'yarn install --frozen-lockfile && yarn compile'
+},
 }
 
 -- enable treesitter integration
-lvim.builtin.treesitter.matchup.enable = true
 lvim.builtin.which_key.mappings["t"] = {
   name = "Diagnostics",
   t = { "<cmd>TroubleToggle<cr>", "trouble" },
@@ -249,6 +239,7 @@ lvim.builtin.which_key.mappings["t"] = {
 --
 require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets/vscode-es7-javascript-react-snippets" } }
 require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets/react-nextjs-snippets" } }
+require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets/vscode-qwik-snippets" } }
 
 -- PATCH: in order to address the message:
 -- vim.treesitter.query.get_query() is deprecated, use vim.treesitter.query.get() instead. :help deprecated
