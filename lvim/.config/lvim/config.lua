@@ -175,7 +175,44 @@ lvim.plugins = {
       vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
     end,
   },
+  { "prisma/vim-prisma" },
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      require('oil').setup({
+        keymaps = {
+          ["g?"] = "actions.show_help",
+          ["<CR>"] = "actions.select",
+          ["<C-s>"] = "actions.select_vsplit",
+          ["<C-h>"] = "actions.select_split",
+          ["<C-t>"] = "actions.select_tab",
+          ["<C-p>"] = "actions.preview",
+          ["<C-c>"] = "actions.close",
+          ["<C-l>"] = "actions.refresh",
+          ["-"] = "actions.parent",
+          ["_"] = "actions.open_cwd",
+          ["`"] = "actions.cd",
+          ["~"] = "actions.tcd",
+          ["zh"] = "actions.toggle_hidden",
+        },
+      })
+    end
+  },
 
+  {
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  },
+  { "mbbill/undotree" },
+  { "nvim-treesitter/nvim-treesitter-context" },
+  {
+    "tpope/vim-surround",
+
+    -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
+    setup = function()
+      vim.o.timeoutlen = 500
+    end
+  },
   {
     "nacro90/numb.nvim",
     event = "BufRead",
@@ -204,12 +241,13 @@ lvim.plugins = {
     end
   },
   {
-  "folke/trouble.nvim",
+    "folke/trouble.nvim",
     cmd = "TroubleToggle",
-},
-  {'dsznajder/vscode-es7-javascript-react-snippets',
-run = 'yarn install --frozen-lockfile && yarn compile'
-},
+  },
+  {
+    'dsznajder/vscode-es7-javascript-react-snippets',
+    run = 'yarn install --frozen-lockfile && yarn compile'
+  },
 }
 
 -- enable treesitter integration
@@ -248,8 +286,8 @@ local orig_notify = vim.notify
 local filter_notify = function(text, level, opts)
   -- more specific to this case
   if type(text) == "string" and (string.find(text, "get_query", 1, true) or string.find(text, "get_node_text", 1, true)) then
-  -- for all deprecated and stack trace warnings
-  -- if type(text) == "string" and (string.find(text, ":help deprecated", 1, true) or string.find(text, "stack trace", 1, true)) then
+    -- for all deprecated and stack trace warnings
+    -- if type(text) == "string" and (string.find(text, ":help deprecated", 1, true) or string.find(text, "stack trace", 1, true)) then
     return
   end
   orig_notify(text, level, opts)
