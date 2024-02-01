@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs link component definition with href
+# key: nulwhref
+# --
+<Link href='${1:path}'>${2:link}</Link>

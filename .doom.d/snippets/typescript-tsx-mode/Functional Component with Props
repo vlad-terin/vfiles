@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: Nextjs Functional Component with Props
+# key: nfc
+# --
+const ${1:ComponentName} = ({ ${2:props} }) => {
+  return (
+    <div>
+      ${0}
+    </div>
+  );
+};
+
+export default $1;

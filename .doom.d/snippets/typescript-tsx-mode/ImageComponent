@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs import for Image component
+# key: nii
+# --
+import ${1:Image} from 'next/image';

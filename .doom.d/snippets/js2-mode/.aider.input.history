@@ -1,0 +1,14 @@
+
+# 2024-01-27 17:19:08.069051
++remove file extension from files
+
+# 2024-01-27 17:19:37.307145
++can you performa these operations on files that have extensions in this folder? 
+
+# 2024-01-27 17:24:21.536795
++for file in *.code-snippets; do
++    mv -- "$file" "${file%.code-snippets}"
++done
+
+# 2024-01-27 17:24:34.889151
++apply

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Nextjs Head component definition
+# key: nuh
+# --
+<Head>
+\t<title>${1:Title}</title>
+</Head>

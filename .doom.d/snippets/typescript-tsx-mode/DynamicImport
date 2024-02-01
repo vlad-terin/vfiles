@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs import for Dynamic
+# key: nid
+# --
+import ${1:dynamic} from 'next/dynamic';

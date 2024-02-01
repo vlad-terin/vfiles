@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs Dynamic Import definition
+# key: nud
+# --
+const ${1:DynamicComponent} = dynamic(() => import('${2:./path}'))

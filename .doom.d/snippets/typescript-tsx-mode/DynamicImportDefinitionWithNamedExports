@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs Dynamic Import definition with named exports
+# key: nudwne
+# --
+const ${1:DynamicComponent} = dynamic(() => import('${2:./path}').then((mod) => mod.${1:DynamicComponent}))

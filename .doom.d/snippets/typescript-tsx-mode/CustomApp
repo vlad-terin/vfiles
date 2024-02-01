@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Nextjs typescript custom app (_app.js)
+# key: ncapp
+# --
+import type {AppProps} from 'next/app'
+
+const MyApp = ({ Component, pageProps }:AppProps) => {
+\treturn <Component {...pageProps} />
+}
+
+export default MyApp;

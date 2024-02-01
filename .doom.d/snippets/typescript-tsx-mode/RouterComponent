@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs import for Router(default) component
+# key: nir
+# --
+import ${1:Router} from 'next/router';

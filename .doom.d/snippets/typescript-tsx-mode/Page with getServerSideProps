@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: Nextjs Page with getServerSideProps
+# key: npgssp
+# --
+import { GetServerSideProps } from 'next';
+
+const ${1:PageName} = ({ ${2:data} }) => {
+  return (
+    <div>
+      ${0}
+    </div>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // Fetch data here
+  return {
+    props: {
+      data: ${2:/* fetched data */}
+    },
+  };
+};
+
+export default $1;

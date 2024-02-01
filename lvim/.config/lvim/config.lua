@@ -8,8 +8,6 @@ an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
-vim.opt.timeoutlen = 250
-vim.opt.relativenumber = true -- relative line numbers
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
@@ -167,6 +165,17 @@ lvim.builtin.treesitter.highlight.enable = true
 -- Additional Plugins
 lvim.plugins = {
   {
+    "Exafunction/codeium.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    config = function()
+      require("codeium").setup({
+      })
+    end
+  },
+  {
     "phaazon/hop.nvim",
     event = "BufRead",
     config = function()
@@ -248,6 +257,33 @@ lvim.plugins = {
     'dsznajder/vscode-es7-javascript-react-snippets',
     run = 'yarn install --frozen-lockfile && yarn compile'
   },
+  {
+    'nvim-orgmode/orgmode',
+    config = function()
+      -- init.lua
+
+      -- Load custom treesitter grammar for org filetype
+      require('orgmode').setup_ts_grammar()
+
+      -- Treesitter configuration
+      require('nvim-treesitter.configs').setup {
+        -- If TS highlights are not enabled at all, or disabled via `disable` prop,
+        -- highlighting will fallback to default Vim syntax highlighting
+        highlight = {
+          enable = true,
+          -- Required for spellcheck, some LaTex highlights and
+          -- code block highlights that do not have ts grammar
+          additional_vim_regex_highlighting = { 'org' },
+        },
+        ensure_installed = { 'org' }, -- Or run :TSUpdate org
+      }
+
+      require('orgmode').setup({
+        org_agenda_files = { '~/Dropbox/org/*', '~/my-orgs/**/*' },
+        org_default_notes_file = '~/Dropbox/org/refile.org',
+      })
+    end,
+  }
 }
 
 -- enable treesitter integration
@@ -279,6 +315,8 @@ require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets
 require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets/react-nextjs-snippets" } }
 require("luasnip/loaders/from_vscode").load { paths = { "~/.config/lvim/snippets/vscode-qwik-snippets" } }
 
+require 'lspconfig'.tailwindcss.setup {}
+
 -- PATCH: in order to address the message:
 -- vim.treesitter.query.get_query() is deprecated, use vim.treesitter.query.get() instead. :help deprecated
 --   This feature will be removed in Nvim version 0.10
@@ -293,3 +331,7 @@ local filter_notify = function(text, level, opts)
   orig_notify(text, level, opts)
 end
 vim.notify = filter_notify
+
+
+require("lvim.lsp.manager").setup("emmet_ls")
+lvim.builtin.cmp.preselect = true

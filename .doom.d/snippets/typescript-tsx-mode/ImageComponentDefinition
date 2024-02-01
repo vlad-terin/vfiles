@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs Image component definition
+# key: nui
+# --
+<Image src='${1:path}' width='' height='' alt='' />

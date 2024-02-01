@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs import for useRouter component
+# key: niur
+# --
+import {useRouter} from 'next/router';

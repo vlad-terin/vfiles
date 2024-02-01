@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Nextjs Api route
+# key: napi
+# --
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default function handler(${1:req}:NextApiRequest, ${2:res}:NextApiResponse) {
+
+\t${3:req.statusCode = 200}
+
+}

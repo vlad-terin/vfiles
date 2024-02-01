@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs import for Link component
+# key: nil
+# --
+import ${1:Link} from 'next/link';

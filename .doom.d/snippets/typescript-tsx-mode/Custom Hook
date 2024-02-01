@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: Nextjs Custom Hook
+# key: nch
+# --
+import { useState, useEffect } from 'react';
+
+export const use${1:HookName} = (${2:initialValue}) => {
+  const [value, setValue] = useState($2);
+
+  useEffect(() => {
+    // Side effects go here
+  }, []);
+
+  return [value, setValue];
+};

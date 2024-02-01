@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs useRouter component definition
+# key: nuur
+# --
+const ${1:router} = useRouter();

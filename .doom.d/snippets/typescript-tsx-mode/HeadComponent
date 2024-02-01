@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Nextjs import for Head component
+# key: nih
+# --
+import ${1:Head} from 'next/head';
