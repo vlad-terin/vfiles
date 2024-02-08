@@ -2,6 +2,7 @@
 
 sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+yabai -m config window_cornerRadius 50
 
 # global settings
 yabai -m config mouse_follows_focus          off
@@ -50,4 +51,6 @@ yabai -m rule --add app="^Music$" manage=off
 
 echo "yabai configuration loaded.."
 
-yabai -m rule --add app="Visual Studio Code" opacity=0.7
+yabai -m rule --add app="Visual Studio Code" opacity=0.9
+yabai -m rule --add app="Wavebox" opacity=0.9
+yabai -m rule --add app="~/Applications/Arc.app/Contents/MacOS/Arc" opacity=0.9

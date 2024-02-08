@@ -34,36 +34,37 @@ zstyle ':completion:*' fzf-completion yes
 bindkey '^ ' autosuggest-accept
 zle -N fzf_folder_search_widget fzf_folder_search
 zle -N fzf_file_search_widget fzf_file_search
-zle -N fzf_text_search_widget fzf_text_search
+zle -N fzf_text_search_widget ss
 
 
 bindkey '^o' fzf_folder_search_widget
 bindkey '^f' fzf_file_search_widget
-bindkey '^t' fzf_text_search_widget
+bindkey '^s' fzf_text_search_widget
 
 fzf_file_search() {
   local file
-  file=$(fd --type f --hidden --exclude .git --exclude node_modules . "$HOME" | fzf) && /Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron "$file"
+  file=$(fd --type f --hidden --exclude .git --exclude node_modules . "$HOME" | fzf) && code -r "$file"
 }
 
 fzf_folder_search() {
   local folder
-  folder=$(fd --type d --exclude .git --exclude node_modules . "$HOME" | fzf) && /Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron "$folder"
+  folder=$(fd --type d --exclude .git --exclude node_modules . "$HOME" | fzf) && code -r "$folder"
 }
 
-fzf_text_search() {
+ss() {
   local pattern
   read -rp "Enter search pattern: " pattern
-  local file
-  file=$(rg --files-with-matches --no-ignore --hidden "$pattern" | fzf) && /Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron "$file"
+  IFS=: read -r file line rest <<< "$(rg --column --line-number --no-heading --color=always --smart-case "$pattern" . | fzf --ansi --delimiter ':' --preview 'bat --color=always {1} --highlight-line {2}' --preview-window 'up,60%,border-bottom,+{2}+3/3,~3')"
+  if [[ -n $file && -n $line ]]; then
+    code -r "$file" -g "${file}:${line}"
+  fi
 }
-
 
 export PATH="$HOME/.local/bin":$PATH
 export EDITOR=lvim
 export PATH="$HOME/.emacs.d/bin:$PATH"
-export PATH="$HOME/.nvm/versions/node/v18.16.0/lib/node_modules:$PATH"
-export PATH="$HOME/.nvm/versions/node/v18.16.0/bin:$PATH"
+export PATH="$HOME/.nvm/versions/node/v18.17.0/lib/node_modules:$PATH"
+export PATH="$HOME/.nvm/versions/node/v18.17.0/bin:$PATH"
 export OPENAI_API_KEY=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
 
 
@@ -76,4 +77,26 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH=/Users/vlad/.local/bin:$PATH
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export PATH="/Applications/MyApp:$PATH"
+export PATH="/Applications:$PATH"
+
+####################Video Recording########################
+## ===================================================== ## 
+
+# screencast() {
+#   ffmpeg -f avfoundation -i "1:0" -r 30 -t 10 -pix_fmt yuv420p "$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4" &
+#   echo $! > /tmp/recordingpid
+# }
+
+
+# killrecording() {
+#   recpid="$(cat /tmp/recordingpid)"
+#   kill -INT "$recpid"
+#   rm -f /tmp/recordingpid
+# }
+
+# zle -N screencast_widget screencast
+# bindkey '^i' screencast_widget
+# bun completions
+[ -s "/Users/vlad/.bun/_bun" ] && source "/Users/vlad/.bun/_bun"
+# eval 
+# AI_AC_ZSH_SETUP_PATH=/Users/vlad/Library/Caches/ai/autocomplete/zsh_setup && test -f $AI_AC_ZSH_SETUP_PATH && source $AI_AC_ZSH_SETUP_PATH; # ai autocomplete setup
