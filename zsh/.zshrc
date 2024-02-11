@@ -34,16 +34,23 @@ zstyle ':completion:*' fzf-completion yes
 bindkey '^ ' autosuggest-accept
 zle -N fzf_folder_search_widget fzf_folder_search
 zle -N fzf_file_search_widget fzf_file_search
+zle -N fzf_project_search_widget fzf_project_search
 zle -N fzf_text_search_widget ss
 
 
 bindkey '^o' fzf_folder_search_widget
 bindkey '^f' fzf_file_search_widget
+bindkey '^p' fzf_project_search_widget
 bindkey '^s' fzf_text_search_widget
 
 fzf_file_search() {
   local file
   file=$(fd --type f --hidden --exclude .git --exclude node_modules . "$HOME" | fzf) && code -r "$file"
+}
+fzf_project_search() {
+  local file
+  # Use "." to represent the current directory from which the function is invoked
+  file=$(fd --type f --hidden --exclude .git --exclude node_modules . . | fzf) && code -r "$file"
 }
 
 fzf_folder_search() {
@@ -56,7 +63,7 @@ ss() {
   read -rp "Enter search pattern: " pattern
   IFS=: read -r file line rest <<< "$(rg --column --line-number --no-heading --color=always --smart-case "$pattern" . | fzf --ansi --delimiter ':' --preview 'bat --color=always {1} --highlight-line {2}' --preview-window 'up,60%,border-bottom,+{2}+3/3,~3')"
   if [[ -n $file && -n $line ]]; then
-    code -r "$file" -g "${file}:${line}"
+    code -r -g "${file}:${line}"
   fi
 }
 
@@ -77,7 +84,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH=/Users/vlad/.local/bin:$PATH
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export PATH="/Applications:$PATH"
+# export PATH="/Applications:$PATH"
 
 ####################Video Recording########################
 ## ===================================================== ## 
@@ -99,4 +106,3 @@ export PATH="/Applications:$PATH"
 # bun completions
 [ -s "/Users/vlad/.bun/_bun" ] && source "/Users/vlad/.bun/_bun"
 # eval 
-# AI_AC_ZSH_SETUP_PATH=/Users/vlad/Library/Caches/ai/autocomplete/zsh_setup && test -f $AI_AC_ZSH_SETUP_PATH && source $AI_AC_ZSH_SETUP_PATH; # ai autocomplete setup
