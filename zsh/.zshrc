@@ -15,7 +15,7 @@ plug "$HOME/.config/zsh/exports.zsh"
 plug "zap-zsh/vim"
 
 plug "atoftegaard-git/zsh-omz-autocomplete"
-plug "Aloxaf/fzf-tab"
+# plug "Aloxaf/fzf-tab"
 plug "zsh-users/zsh-autosuggestions"
 plug "hlissner/zsh-autopair"
 plug "zap-zsh/supercharge"
@@ -35,13 +35,29 @@ bindkey '^ ' autosuggest-accept
 zle -N fzf_folder_search_widget fzf_folder_search
 zle -N fzf_file_search_widget fzf_file_search
 zle -N fzf_project_search_widget fzf_project_search
-zle -N fzf_text_search_widget ss
-
 
 bindkey '^o' fzf_folder_search_widget
-bindkey '^f' fzf_file_search_widget
+bindkey '^f' globaltextsearch_widget
 bindkey '^p' fzf_project_search_widget
-bindkey '^s' fzf_text_search_widget
+
+
+
+#!/bin/bash
+
+globaltextsearch_widget() {
+  local file line rest
+
+  IFS=: read -r file line rest <<< "$(rg --column --line-number --no-heading --color=always --smart-case "" ~ | fzf --ansi --delimiter ':' --preview 'bat --color=always {1} --highlight-line {2}' --preview-window 'up,60%,border-bottom,+{2}+3/3,~3')"
+
+if [[ -n $file && -n $line ]]; then
+  code -r -g "${file}:${line}"
+fi
+}
+
+bindkey '^f' globaltextsearch_widget
+zle -N globaltextsearch_widget
+
+alias bd='bun dev'
 
 fzf_file_search() {
   local file
@@ -106,3 +122,5 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 # bun completions
 [ -s "/Users/vlad/.bun/_bun" ] && source "/Users/vlad/.bun/_bun"
 # eval 
+export DOCKER_HOST=unix:///Users/vlad/.colima/default/docker.sock
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
