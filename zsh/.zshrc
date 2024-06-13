@@ -88,7 +88,7 @@ export EDITOR=lvim
 export PATH="$HOME/.emacs.d/bin:$PATH"
 export PATH="$HOME/.nvm/versions/node/v18.17.0/lib/node_modules:$PATH"
 export PATH="$HOME/.nvm/versions/node/v18.17.0/bin:$PATH"
-export OPENAI_API_KEY=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
+
 
 
 export NVM_DIR="$HOME/.nvm"
